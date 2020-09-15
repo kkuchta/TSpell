@@ -4,5 +4,5 @@ import { ValidWords } from "./spellcheck";
 // only) and if it's spelled correctly, this file will typecheck. Otherwise
 // you'll get an error like `Type '"valid"' is not assignable to type
 // '"invalid"'`
-const result: ValidWords<"the quick brown fox jumped over the lazy dog."> =
+const result: ValidWords<"the qxick brown fox jumped over the lazy dog."> =
   "valid";
