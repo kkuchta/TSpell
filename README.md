@@ -13,7 +13,7 @@ const result: ValidWords<"the qxick brown fox."> = "valid";
 ```
 
 <p align="center">
-  <img src='images/butwhy.gif' width=200 />
+  <img src='images/butwhy.gif' width=400 alt="Ryan Renolds saying 'but why?'"/>
 </p>
 
 ## Let me see that...
@@ -93,7 +93,10 @@ type ResultType2 = SomeType<void>;
 Finally, typescript allows some fancy type shenanigans (to use the technical type-theory terminology) using the `infer` keyword in template strings. Use `` SomeGeneric extends `foo${infer Rest}` ? ... : ... `` [as a type conditional](https://www.typescriptlang.org/play?ts=4.1.0-dev.20200915#code/C4TwDgpgBAyg9gWwgFXBAPPJBxCA7CAJwEsBjAPigF5ZEJcCTSoIAPYfAEwGcoADAGZw4AEgDexPAKJQAShG7AAvnygB+foQXAq4+YpVQAXFABEnYpzwByYFAQBDYKQAWUIXFMAoLwHpfcgpwADYAbgpQwHCRLtCKJHgA5lDBxByEDsGRaFDWWopUHtZeoJCB3ACuwcCokACM1LRItRimHgBGDoSm5D7+5SHhvFExccAJyanpmdll5pY2do7Obh7epdD6VTVoAEyNWCho6KbtxABenec9QA) and it'll evaluate the true branch only if SomeGeneric is a string literal type that starts with the string 'foo'.
 
 As a quick break, here's a picture off my dog.
-![My cute dog, Porter.  She is the goodest girl.](images/dog.jpeg)
+
+<p align="center">
+  <img src='images/dog.jpeg' width=400 alt="My cute dog, Porter.  She is the goodest girl." />
+</p>
 
 Oh, and finally-finally, because typescript was designed by the Norse god of mischief, types can be recursive. If you want to make a type that's a repeatedly-nested array of numbers (because you were poorly-brought-up), try:
 
