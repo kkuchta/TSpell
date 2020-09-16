@@ -4,7 +4,7 @@
 
 This is a typescript spell checker. I'm sorry, I mispoke: this is a compile-time spell checker using only typescript's type checker. No, I'm serious. Well, I mean, obviously not _that_ serious, but it _does_ work.
 
-```
+```typescript
 // Typechecks cleanly:
 const result: ValidWords<"the quick brown fox."> = "valid";
 
@@ -18,7 +18,7 @@ To try it yourself, edit demo.ts to replace the test string with your own, then 
 
 You'll either get this if the test string is spelled correctly:
 
-```
+```shell
 $ yarn run tsc --noEmit demo.ts
 yarn run v1.22.4
 $ /Users/kevin/code/js/typescript/spellcheck/node_modules/.bin/tsc --noEmit demo.ts
@@ -27,7 +27,7 @@ $ /Users/kevin/code/js/typescript/spellcheck/node_modules/.bin/tsc --noEmit demo
 
 Or this if it's not:
 
-```
+```shell
 $ yarn run tsc --noEmit demo.ts
 yarn run v1.22.4
 $ /Users/kevin/code/js/typescript/spellcheck/node_modules/.bin/tsc --noEmit demo.ts
@@ -47,7 +47,7 @@ info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this comm
 
 Here's a simplified version that only supports two valid words: "cat" and "dog" and a space character as the only non-letter character allowed.
 
-```
+```typescript
 type ValidWords<T extends string> = T extends ""
   ? "valid"
   : T extends `cat${infer Rest}` | `dog${infer Rest}`
@@ -72,7 +72,7 @@ There are a few things you need to know to get this:
 
 So you can use type conditionals to test for stuff using a generic:
 
-```
+```typescript
 type SomeType<SomeGeneric> = SomeGeneric extends string ? 'yepyepyep' : 'nopenopenope'
 
 // Will be string literal type 'yepyepyep'
@@ -86,7 +86,7 @@ Finally, typescript allows some fancy type shenanigans (to use the technical typ
 
 Oh, and finally-finally, types can be recursive. If you want to make a type that's a repeatedly-nested array of number, try:
 
-```
+```typescript
 type SomeType = [number, SomeType | [number]]
 const x: SomeType = [1, [2, [3]]] // type checks cleanly
 ```
@@ -101,7 +101,7 @@ So given that, the sentence `dog cat cat` is valid becuase it matches `('dog' or
 
 And if we're willing to abandon all good sense and decorum, we can encode that in types as:
 
-```
+```typescript
 type ValidWords<T extends string> =
   T extends "" // If the string is empty, we've processed the whole thing already
   ? "valid"    // therefore it must be valid
@@ -118,7 +118,7 @@ type ValidWords<T extends string> =
 
 This doesn't _quite_ work, since it requires the sentence to end in a space. Also, it assumes spaces are the only non-letter characters. Let's change things up a bit such that a sentence just bounces back and forth between valid words and "joiners" like spaces or periods:
 
-```
+```typescript
 type ValidWords<T extends string> = T extends ""
   ? "valid"
   : T extends `cat${infer Rest}` | `dog${infer Rest}`
@@ -137,13 +137,13 @@ const x: ValidWords<"dog cat dog."> = "valid"
 
 It works! Well, it does what we want - it's certainly the ugliest and least-complete spellchecker ever made. From here, we can expand it by taking in a dictionary of words (say, the 100k most common ones) and generating something like:
 
-```
+```typescript
 T extends `the${infer Rest}` | `of${infer Rest}` | `and${infer Rest}` | `to${infer Rest}` | `in${infer Rest}` | `a${infer Rest}` | `is${infer Rest}` | `that${infer Rest}` | `for${infer Rest}` | `it${infer Rest}` | `as${infer Rest}` | `was${infer Rest}` | `with${infer Rest}` | `be${infer Rest}` ... and so on for 100k more.
 ```
 
 That's what we're using in the first code example (and in demo.ts):
 
-```
+```typescript
 import { ValidWords } from "./spellcheck";
 
 // Fails to type check if the string contains a mispelled word.
