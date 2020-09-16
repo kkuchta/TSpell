@@ -2,7 +2,7 @@
 
 ## Wut
 
-This is a typescript spell checker. I'm sorry, I mispoke: this is a compile-time spell checker using only typescript's type checker. No, I'm serious. Well, I mean, obviously not _that_ serious, but it _does_ work.
+This is a typescript spell checker. I'm sorry, I misspoke: this is a compile-time spell checker using only typescript's type checker. No, I'm serious. Well, I mean, obviously not _that_ serious, but it _does_ work.
 
 ```typescript
 // Typechecks cleanly:
@@ -47,7 +47,7 @@ info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this comm
 
 Poorly.
 
-Ok, here's a simplified version that only supports two valid words: "cat" and "dog" and a space character as the only non-letter character allowed.  If this makes sense to you, that makes one of us (and you can probably skip the rest of this section).
+Ok, here's a simplified version that only supports two valid words: "cat" and "dog" and a space character as the only non-letter character allowed. If this makes sense to you, that makes one of us (and you can probably skip the rest of this section).
 
 ```typescript
 type ValidWords<T extends string> = T extends ""
@@ -75,13 +75,15 @@ There are a few things you need to know to get this:
 So you can use type conditionals to test for stuff using a generic:
 
 ```typescript
-type SomeType<SomeGeneric> = SomeGeneric extends string ? 'yepyepyep' : 'nopenopenope'
+type SomeType<SomeGeneric> = SomeGeneric extends string
+  ? "yepyepyep"
+  : "nopenopenope";
 
 // Will be string literal type 'yepyepyep'
-type ResultType1 = SomeType<string>
+type ResultType1 = SomeType<string>;
 
 // Will be string literal type 'nopenopenope'
-type ResultType2 = SomeType<void>
+type ResultType2 = SomeType<void>;
 ```
 
 Finally, typescript allows some fancy type shenanigans (to use the technical type-theory terminology) using the `infer` keyword in template strings. Use `SomeGeneric extends `foo\${infer Rest}` ? ... : ...` [as a type conditional](https://www.typescriptlang.org/play?ts=4.1.0-dev.20200915#code/C4TwDgpgBAyg9gWwgFXBAPPJBxCA7CAJwEsBjAPigF5ZEJcCTSoIAPYfAEwGcoADAGZw4AEgDexPAKJQAShG7AAvnygB+foQXAq4+YpVQAXFABEnYpzwByYFAQBDYKQAWUIXFMAoLwHpfcgpwADYAbgpQwHCRLtCKJHgA5lDBxByEDsGRaFDWWopUHtZeoJCB3ACuwcCokACM1LRItRimHgBGDoSm5D7+5SHhvFExccAJyanpmdll5pY2do7Obh7epdD6VTVoAEyNWCho6KbtxABenec9QA) and it'll evaluate the true branch only if SomeGeneric is a string literal type that starts with the string 'foo'.
@@ -89,8 +91,8 @@ Finally, typescript allows some fancy type shenanigans (to use the technical typ
 Oh, and finally-finally, types can be recursive. If you want to make a type that's a repeatedly-nested array of number (because you were poorly-brought-up), try:
 
 ```typescript
-type SomeType = [number, SomeType | [number]]
-const x: SomeType = [1, [2, [3]]] // type checks cleanly
+type SomeType = [number, SomeType | [number]];
+const x: SomeType = [1, [2, [3]]]; // type checks cleanly
 ```
 
 So, back to English. Let's say a valid english sentence is a bunch of valid words like 'cat' and 'dog' and 'falafel' strung together by connectors like spaces and periods. Let's also ignore the wailing and gnashing of teeth sure to be coming out of any english teacher reading this paragraph.
@@ -158,7 +160,7 @@ const result: ValidWords<"the quick brown fox jumped over the lazy dog."> =
 
 Again: poorly.
 
-The script `generate_spellcheck.ts` reads in a dictionary of words (`common_words.txt`) and generates a single massive TS type in [spellcheck.ts](https://github.com/kkuchta/TSpell/blob/master/spellcheck.ts) (`yarn run ts-node generate_spellcheck.ts`). You can then use that to spellcheck something by importing the massive, generated type.  See or edit `demo.ts` to try it out, then run the type checker with `yarn run tsc --noEmit demo.ts`.  If it runs cleanly, you spelled your sentence correctly.
+The script `generate_spellcheck.ts` reads in a dictionary of words (`common_words.txt`) and generates a single massive TS type in [spellcheck.ts](https://github.com/kkuchta/TSpell/blob/master/spellcheck.ts) (`yarn run ts-node generate_spellcheck.ts`). You can then use that to spellcheck something by importing the massive, generated type. See or edit `demo.ts` to try it out, then run the type checker with `yarn run tsc --noEmit demo.ts`. If it runs cleanly, you spelled your sentence correctly.
 
 **Note**: This only works in the as-yet-unofficial TypeScript 4.1 and later. You can play around with that typescript in [TypeScript Playground](https://www.typescriptlang.org/play?ts=4.1.0-pr-40336-88#code/C4TwDgpgBAaghgGwJYBMDqB7ATigzgHgBUoIAPYCAOzyl2CyUoHMA+KAXimLIutygBEAgFBQoAfkEA3RKhFiAXFxLkqNAAYBjOMAAkAb0YAzCFigAlCHQC+6qAB8o6lBiYHjpi1eC3RE2LIoAFIYjKb4lnQsfkoCjDLIKAIA3MLCoJABiSFhWEQqvDR0DMxsnNyqfILy-gIJcjHKPGr8du6UJmaRPnaO6gB07Z1eNup+kgAU8ImYOATdbI7TqDmU4QsAlI1xlPVJaZoYlHRQpErL6Nh4+AIuTFDawFB3-QJl0oECQA) if you want, or `yarn install` should do it in this repo.
 
@@ -170,7 +172,7 @@ The script `generate_spellcheck.ts` reads in a dictionary of words (`common_word
 
 **Ok, it turns out you _can_, but what about _should_?** Oh, absolutely not. This is terribly inefficient. Spell/Type-checking a 9-word sentence takes 40 seconds on my machine and larger dictionaries cause the TS compiler to think its hit an infinite recursive loop and barf.
 
-**I kinda want to use this for real...** Please don't.  Or do, and tell me how it turns out.  If you actually want compile-time spell checking for some reason, maybe rig up a step in your JS build pipleine instead of trying to abuse the type checker like some kinda maniac.
+**I kinda want to use this for real...** Please don't. Or do, and tell me how it turns out. If you actually want compile-time spell checking for some reason, maybe rig up a step in your JS build pipleine instead of trying to abuse the type checker like some kinda maniac.
 
 **Who's responsible for this monstrosity?** Direct your hate mail to [@kkuchta](https://twitter.com/kkuchta), although a [tweet by @danvdk](https://twitter.com/danvdk/status/1301707026507198464) showed me it was possible.
 
