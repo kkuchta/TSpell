@@ -187,3 +187,4 @@ The script `generate_spellcheck.ts` reads in a dictionary of words (`common_word
 **Don't you code-shame me.** Ok, fine, you might like [css-only async chat](https://github.com/kkuchta/css-only-chat), [lambda-only url shortener](https://github.com/kkuchta/url_shortener), [disguising ruby as JS](https://kevinkuchta.com/2017/07/disguising-ruby-as-javascript/), or [a database in your browser tabs](https://github.com/kkuchta/tabdb).
 
 **Why do you write FAQs as a dialog for these projects instead of prose like a normal person?** Oh look, the README's about to end, no time to answ-
+
