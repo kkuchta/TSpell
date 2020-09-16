@@ -14,7 +14,7 @@ const result: ValidWords<"the qxick brown fox."> = "valid";
 
 ## Let me see that...
 
-To try it yourself, edit demo.ts to replace the test string with your own, then run `yarn run tsc --noEmit demo.ts`.
+To try it yourself, edit demo.ts to replace the test string with your own, run `yarn install`, then run `yarn run tsc --noEmit demo.ts`.
 
 You'll either get this if the test string is spelled correctly:
 
