@@ -11,13 +11,14 @@ const result: ValidWords<"the quick brown fox."> = "valid";
 // Throws a type error
 const result: ValidWords<"the qxick brown fox."> = "valid";
 ```
+
 <p align="center">
   <img src='images/butwhy.gif' width=200 />
 </p>
 
 ## Let me see that...
 
-To try it yourself, edit demo.ts to replace the test string with your own, run `yarn install`, then run `yarn run tsc --noEmit demo.ts`.
+If you don't believe such evil could exist in the world, try it yourself. Edit demo.ts to replace the test string with your own, run `yarn install`, then run `yarn run tsc --noEmit demo.ts`.
 
 You'll either get this if the test string is spelled correctly:
 
@@ -89,16 +90,19 @@ type ResultType1 = SomeType<string>;
 type ResultType2 = SomeType<void>;
 ```
 
-Finally, typescript allows some fancy type shenanigans (to use the technical type-theory terminology) using the `infer` keyword in template strings. Use ``SomeGeneric extends `foo${infer Rest}` ? ... : ...`` [as a type conditional](https://www.typescriptlang.org/play?ts=4.1.0-dev.20200915#code/C4TwDgpgBAyg9gWwgFXBAPPJBxCA7CAJwEsBjAPigF5ZEJcCTSoIAPYfAEwGcoADAGZw4AEgDexPAKJQAShG7AAvnygB+foQXAq4+YpVQAXFABEnYpzwByYFAQBDYKQAWUIXFMAoLwHpfcgpwADYAbgpQwHCRLtCKJHgA5lDBxByEDsGRaFDWWopUHtZeoJCB3ACuwcCokACM1LRItRimHgBGDoSm5D7+5SHhvFExccAJyanpmdll5pY2do7Obh7epdD6VTVoAEyNWCho6KbtxABenec9QA) and it'll evaluate the true branch only if SomeGeneric is a string literal type that starts with the string 'foo'.
+Finally, typescript allows some fancy type shenanigans (to use the technical type-theory terminology) using the `infer` keyword in template strings. Use `` SomeGeneric extends `foo${infer Rest}` ? ... : ... `` [as a type conditional](https://www.typescriptlang.org/play?ts=4.1.0-dev.20200915#code/C4TwDgpgBAyg9gWwgFXBAPPJBxCA7CAJwEsBjAPigF5ZEJcCTSoIAPYfAEwGcoADAGZw4AEgDexPAKJQAShG7AAvnygB+foQXAq4+YpVQAXFABEnYpzwByYFAQBDYKQAWUIXFMAoLwHpfcgpwADYAbgpQwHCRLtCKJHgA5lDBxByEDsGRaFDWWopUHtZeoJCB3ACuwcCokACM1LRItRimHgBGDoSm5D7+5SHhvFExccAJyanpmdll5pY2do7Obh7epdD6VTVoAEyNWCho6KbtxABenec9QA) and it'll evaluate the true branch only if SomeGeneric is a string literal type that starts with the string 'foo'.
 
-Oh, and finally-finally, types can be recursive. If you want to make a type that's a repeatedly-nested array of numbers (because you were poorly-brought-up), try:
+As a quick break, here's a picture off my dog.
+![My cute dog, Porter.  She is the goodest girl.](images/dog.jpeg)
+
+Oh, and finally-finally, because typescript was designed by the Norse god of mischief, types can be recursive. If you want to make a type that's a repeatedly-nested array of numbers (because you were poorly-brought-up), try:
 
 ```typescript
 type SomeType = [number, SomeType | [number]];
 const x: SomeType = [1, [2, [3]]]; // type checks cleanly
 ```
 
-So, back to English. Let's say a valid english sentence is a bunch of valid words like 'cat' and 'dog' and 'falafel' strung together by connectors like spaces and periods. Let's also ignore the wailing and gnashing of teeth sure to be coming from any English teacher reading this paragraph.
+So, back to English. Let's say a valid English sentence is a bunch of valid words like 'cat' and 'dog' and 'falafel' strung together by connectors like spaces and periods. Let's also ignore the wailing and gnashing of teeth sure to be coming from any English teacher reading this paragraph.
 
 Now, assuming there are are only two words, 'dog' and 'cat (and I can't really imagine why you'd need any other words), we can define a sentence in pseudocode like:
 
@@ -142,7 +146,7 @@ type ValidJoiner<T extends string> = T extends ""
 const x: ValidWords<"dog cat dog."> = "valid"
 ```
 
-It works! Well, it does what we want - it's certainly the ugliest and least-complete spellchecker ever made. From here, we can expand it by taking in a dictionary of words (say, the 100k most common ones) and generating something like:
+It works! Well, it does what we want, anyway – it's certainly the ugliest and least-complete spellchecker ever made. From here, we can expand it by taking in a dictionary of words (say, the 100k most common ones) and generating something like:
 
 ```typescript
 T extends `the${infer Rest}` | `of${infer Rest}` | `and${infer Rest}` | `to${infer Rest}` | `in${infer Rest}` | `a${infer Rest}` | `is${infer Rest}` | `that${infer Rest}` | `for${infer Rest}` | `it${infer Rest}` | `as${infer Rest}` | `was${infer Rest}` | `with${infer Rest}` | `be${infer Rest}` ... and so on for 100k more.
@@ -175,7 +179,7 @@ The script `generate_spellcheck.ts` reads in a dictionary of words (`common_word
 
 **No, I mean, why did you build this** To see if I could.
 
-**Ok, it turns out you _can_, but what about _should_?** Oh, absolutely not. This is terribly inefficient. Spell/Type-checking a 9-word sentence takes 40 seconds on my machine and larger dictionaries cause the TS compiler to think its hit an infinite recursive loop and barf.
+**Ok, it turns out you _can_, but what about _should_?** Oh, absolutely not. This is terribly inefficient. Spell/Type-checking a 9-word sentence takes 40 seconds on my machine and larger dictionaries cause the TS compiler to think it's hit an infinite recursive loop and barf.
 
 **I kinda want to use this for real...** Please don't. Or do, and tell me how it turns out. If you actually want compile-time spell checking for some reason, maybe rig up a step in your JS build pipleine instead of trying to abuse the type checker like some kinda maniac.
 
@@ -189,5 +193,4 @@ The script `generate_spellcheck.ts` reads in a dictionary of words (`common_word
 
 **Don't you code-shame me.** Ok, fine, you might like [css-only async chat](https://github.com/kkuchta/css-only-chat), [lambda-only url shortener](https://github.com/kkuchta/url_shortener), [disguising ruby as JS](https://kevinkuchta.com/2017/07/disguising-ruby-as-javascript/), or [a database in your browser tabs](https://github.com/kkuchta/tabdb).
 
-**Why do you write FAQs as a dialog for these projects instead of prose like a normal person?** Oh look, the README's about to end, no time to answ-
-
+**Why do you write FAQs for these projects as dialogs instead of prose like a normal person?** Oh look, the README's about to end, no time to answ-
