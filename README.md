@@ -45,7 +45,9 @@ info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this comm
 
 ## How does this work?
 
-Here's a simplified version that only supports two valid words: "cat" and "dog" and a space character as the only non-letter character allowed.
+Poorly.
+
+Ok, here's a simplified version that only supports two valid words: "cat" and "dog" and a space character as the only non-letter character allowed.  If this makes sense to you, that makes one of us (and you can probably skip the rest of this section).
 
 ```typescript
 type ValidWords<T extends string> = T extends ""
@@ -66,7 +68,7 @@ const result:ValidWords<'cat dog dog cat'> = 'valid';
 
 There are a few things you need to know to get this:
 
-1. String literals can act as types. `type SomeType = 'foobar'` is a valid type: it'll only allow values that are strings equal to 'foobar'.
+1. [String literals can act as types](https://www.typescriptlang.org/play?ts=4.1.0-dev.20200915#code/C4TwDgpgBAyg9gWwgFXNAvFA5AMznAIwEMAnLAKHIHoqoA1IgGwEsATcgYzgDsBnYKL0QQGJAIwAuWMNSQomXPmJkA3JRpQAktwBuTNpx79Bw0QCYp8JLIzYCzAF7EHWFUA). `type SomeType = 'foobar'` is a valid type: it'll only allow values that are strings equal to 'foobar'.
 2. Typescript has type conditionals: `type SomeType = (condition) ? string : number`, so SomeType will be the string type if condition is true and the number type if it's false.
 3. The only condition you can actually put in there is `type1 extends type2`, which tells you if type1 is a subtype of type2.
 
@@ -82,18 +84,18 @@ type ResultType1 = SomeType<string>
 type ResultType2 = SomeType<void>
 ```
 
-Finally, typescript allows some fancy type shenanigans (to use the technical type-theory terminology) using the `infer` keyword in template strings. Use `SomeGeneric extends `foo\${Rest} ? ... : ...` as a type conditional and it'll evaluate the true branch only if SomeGeneric is a string literal type that starts with the string 'foo'.
+Finally, typescript allows some fancy type shenanigans (to use the technical type-theory terminology) using the `infer` keyword in template strings. Use `SomeGeneric extends `foo\${infer Rest}` ? ... : ...` [as a type conditional](https://www.typescriptlang.org/play?ts=4.1.0-dev.20200915#code/C4TwDgpgBAyg9gWwgFXBAPPJBxCA7CAJwEsBjAPigF5ZEJcCTSoIAPYfAEwGcoADAGZw4AEgDexPAKJQAShG7AAvnygB+foQXAq4+YpVQAXFABEnYpzwByYFAQBDYKQAWUIXFMAoLwHpfcgpwADYAbgpQwHCRLtCKJHgA5lDBxByEDsGRaFDWWopUHtZeoJCB3ACuwcCokACM1LRItRimHgBGDoSm5D7+5SHhvFExccAJyanpmdll5pY2do7Obh7epdD6VTVoAEyNWCho6KbtxABenec9QA) and it'll evaluate the true branch only if SomeGeneric is a string literal type that starts with the string 'foo'.
 
-Oh, and finally-finally, types can be recursive. If you want to make a type that's a repeatedly-nested array of number, try:
+Oh, and finally-finally, types can be recursive. If you want to make a type that's a repeatedly-nested array of number (because you were poorly-brought-up), try:
 
 ```typescript
 type SomeType = [number, SomeType | [number]]
 const x: SomeType = [1, [2, [3]]] // type checks cleanly
 ```
 
-So, back to English. Let's say a valid english sentence is a bunch of valid words like 'cat' and 'dog' and 'falafel' strung together by connectors like spaces and periods. Let's also ignore the wailing and gnashing of teeth sure to be coming out of any english teacher reading the previous sentence.
+So, back to English. Let's say a valid english sentence is a bunch of valid words like 'cat' and 'dog' and 'falafel' strung together by connectors like spaces and periods. Let's also ignore the wailing and gnashing of teeth sure to be coming out of any english teacher reading this paragraph.
 
-Now, assuming there are are only two words, 'dog' and 'cat, we can define a sentence like:
+Now, assuming there are are only two words, 'dog' and 'cat (and I can't really imagine why you'd need any other words), we can define a sentence in pseudocode like:
 
 valid_sentence = ('dog' or 'cat') + ' ' + (valid_sencence or nothing).
 
@@ -103,8 +105,8 @@ And if we're willing to abandon all good sense and decorum, we can encode that i
 
 ```typescript
 type ValidWords<T extends string> =
-  T extends "" // If the string is empty, we've processed the whole thing already
-  ? "valid"    // therefore it must be valid
+  T extends "" // If the string is empty, we've processed the whole thing already...
+  ? "valid"    // ...therefore it must be valid
 
   // Otherwise, if the string starts with a valid word and a space,
   : T extends `cat ${infer Rest}` | `dog ${infer Rest}`
@@ -144,6 +146,7 @@ T extends `the${infer Rest}` | `of${infer Rest}` | `and${infer Rest}` | `to${inf
 That's what we're using in the first code example (and in demo.ts):
 
 ```typescript
+// Generated beforehand from a dictionary of about 100k words
 import { ValidWords } from "./spellcheck";
 
 // Fails to type check if the string contains a mispelled word.
@@ -153,9 +156,11 @@ const result: ValidWords<"the quick brown fox jumped over the lazy dog."> =
 
 ## Ok, so how does the code here work?
 
-The script generate_spellcheck.ts reads in a dictionary of words (common_words.txt) and generates a massive TS type in spellcheck.ts (`yarn run ts-node generate_spellcheck.ts`). You can then use that to spellcheck something by importing the massive, generated type - see or edit `demo.ts` to try it out, then run the type checker with `yarn run tsc --noEmit demo.ts`.
+Again: poorly.
 
-**Note**: this only works in the as-yet-unofficial TypeScript 4.1 and later. You can play around with that typescript in [TypeScript Playground](https://www.typescriptlang.org/play?ts=4.1.0-pr-40336-88#code/C4TwDgpgBAaghgGwJYBMDqB7ATigzgHgBUoIAPYCAOzyl2CyUoHMA+KAXimLIutygBEAgFBQoAfkEA3RKhFiAXFxLkqNAAYBjOMAAkAb0YAzCFigAlCHQC+6qAB8o6lBiYHjpi1eC3RE2LIoAFIYjKb4lnQsfkoCjDLIKAIA3MLCoJABiSFhWEQqvDR0DMxsnNyqfILy-gIJcjHKPGr8du6UJmaRPnaO6gB07Z1eNup+kgAU8ImYOATdbI7TqDmU4QsAlI1xlPVJaZoYlHRQpErL6Nh4+AIuTFDawFB3-QJl0oECQA) if you want, or `yarn install` should do it in this repo.
+The script `generate_spellcheck.ts` reads in a dictionary of words (`common_words.txt`) and generates a single massive TS type in [spellcheck.ts](https://github.com/kkuchta/TSpell/blob/master/spellcheck.ts) (`yarn run ts-node generate_spellcheck.ts`). You can then use that to spellcheck something by importing the massive, generated type.  See or edit `demo.ts` to try it out, then run the type checker with `yarn run tsc --noEmit demo.ts`.  If it runs cleanly, you spelled your sentence correctly.
+
+**Note**: This only works in the as-yet-unofficial TypeScript 4.1 and later. You can play around with that typescript in [TypeScript Playground](https://www.typescriptlang.org/play?ts=4.1.0-pr-40336-88#code/C4TwDgpgBAaghgGwJYBMDqB7ATigzgHgBUoIAPYCAOzyl2CyUoHMA+KAXimLIutygBEAgFBQoAfkEA3RKhFiAXFxLkqNAAYBjOMAAkAb0YAzCFigAlCHQC+6qAB8o6lBiYHjpi1eC3RE2LIoAFIYjKb4lnQsfkoCjDLIKAIA3MLCoJABiSFhWEQqvDR0DMxsnNyqfILy-gIJcjHKPGr8du6UJmaRPnaO6gB07Z1eNup+kgAU8ImYOATdbI7TqDmU4QsAlI1xlPVJaZoYlHRQpErL6Nh4+AIuTFDawFB3-QJl0oECQA) if you want, or `yarn install` should do it in this repo.
 
 ## FAQ
 
@@ -164,6 +169,8 @@ The script generate_spellcheck.ts reads in a dictionary of words (common_words.t
 **No, I mean, why did you build this** To see if I could.
 
 **Ok, it turns out you _can_, but what about _should_?** Oh, absolutely not. This is terribly inefficient. Spell/Type-checking a 9-word sentence takes 40 seconds on my machine and larger dictionaries cause the TS compiler to think its hit an infinite recursive loop and barf.
+
+**I kinda want to use this for real...** Please don't.  Or do, and tell me how it turns out.  If you actually want compile-time spell checking for some reason, maybe rig up a step in your JS build pipleine instead of trying to abuse the type checker like some kinda maniac.
 
 **Who's responsible for this monstrosity?** Direct your hate mail to [@kkuchta](https://twitter.com/kkuchta), although a [tweet by @danvdk](https://twitter.com/danvdk/status/1301707026507198464) showed me it was possible.
 
@@ -174,3 +181,5 @@ The script generate_spellcheck.ts reads in a dictionary of words (common_words.t
 **I said... _hushed voice_ I kinda like code monstrosities like this, where can I find more?** You were right to whisper, you should be ashamed of yourself.
 
 **Don't you code-shame me.** Ok, fine, you might like [css-only async chat](https://github.com/kkuchta/css-only-chat), [lambda-only url shortener](https://github.com/kkuchta/url_shortener), [disguising ruby as JS](https://kevinkuchta.com/2017/07/disguising-ruby-as-javascript/), or [a database in your browser tabs](https://github.com/kkuchta/tabdb).
+
+**Why do you write FAQs as a dialog for these projects instead of prose like a normal person?** Oh look, the README's about to end, no time to answ-
