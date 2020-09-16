@@ -160,9 +160,15 @@ The script generate_spellcheck.ts reads in a dictionary of words (common_words.t
 ## FAQ
 
 **Why would you do this?** I wouldn't.
+
 **No, I mean, why did you build this** To see if I could.
+
 **Ok, it turns out you _can_, but what about _should_?** Oh, absolutely not. This is terribly inefficient. Spell/Type-checking a 9-word sentence takes 40 seconds on my machine and larger dictionaries cause the TS compiler to think its hit an infinite recursive loop and barf.
+
 **Who's responsible for this monstrosity?** Direct your hate mail to [@kkuchta](https://twitter.com/kkuchta), although a [tweet by @danvdk](https://twitter.com/danvdk/status/1301707026507198464) showed me it was possible.
+
 **\*whispers\*** What?
-** I said... _hushed voice_ I kinda like code monstrosities like this, where can I find more?** You're sick. Seek help.
-**...** Ok, fine, you might like [css-only async chat](https://github.com/kkuchta/css-only-chat), [lambda-only url shortener](https://github.com/kkuchta/url_shortener), [disguising ruby as JS](https://kevinkuchta.com/2017/07/disguising-ruby-as-javascript/), or [a database in your browser tabs](https://github.com/kkuchta/tabdb).
+
+**I said... _hushed voice_ I kinda like code monstrosities like this, where can I find more?** You're sick. Seek help.
+
+**Don't you code-shame me.** Ok, fine, you might like [css-only async chat](https://github.com/kkuchta/css-only-chat), [lambda-only url shortener](https://github.com/kkuchta/url_shortener), [disguising ruby as JS](https://kevinkuchta.com/2017/07/disguising-ruby-as-javascript/), or [a database in your browser tabs](https://github.com/kkuchta/tabdb).
