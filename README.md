@@ -86,16 +86,16 @@ type ResultType1 = SomeType<string>;
 type ResultType2 = SomeType<void>;
 ```
 
-Finally, typescript allows some fancy type shenanigans (to use the technical type-theory terminology) using the `infer` keyword in template strings. Use `SomeGeneric extends `foo\${infer Rest}` ? ... : ...` [as a type conditional](https://www.typescriptlang.org/play?ts=4.1.0-dev.20200915#code/C4TwDgpgBAyg9gWwgFXBAPPJBxCA7CAJwEsBjAPigF5ZEJcCTSoIAPYfAEwGcoADAGZw4AEgDexPAKJQAShG7AAvnygB+foQXAq4+YpVQAXFABEnYpzwByYFAQBDYKQAWUIXFMAoLwHpfcgpwADYAbgpQwHCRLtCKJHgA5lDBxByEDsGRaFDWWopUHtZeoJCB3ACuwcCokACM1LRItRimHgBGDoSm5D7+5SHhvFExccAJyanpmdll5pY2do7Obh7epdD6VTVoAEyNWCho6KbtxABenec9QA) and it'll evaluate the true branch only if SomeGeneric is a string literal type that starts with the string 'foo'.
+Finally, typescript allows some fancy type shenanigans (to use the technical type-theory terminology) using the `infer` keyword in template strings. Use ``SomeGeneric extends `foo${infer Rest}` ? ... : ...`` [as a type conditional](https://www.typescriptlang.org/play?ts=4.1.0-dev.20200915#code/C4TwDgpgBAyg9gWwgFXBAPPJBxCA7CAJwEsBjAPigF5ZEJcCTSoIAPYfAEwGcoADAGZw4AEgDexPAKJQAShG7AAvnygB+foQXAq4+YpVQAXFABEnYpzwByYFAQBDYKQAWUIXFMAoLwHpfcgpwADYAbgpQwHCRLtCKJHgA5lDBxByEDsGRaFDWWopUHtZeoJCB3ACuwcCokACM1LRItRimHgBGDoSm5D7+5SHhvFExccAJyanpmdll5pY2do7Obh7epdD6VTVoAEyNWCho6KbtxABenec9QA) and it'll evaluate the true branch only if SomeGeneric is a string literal type that starts with the string 'foo'.
 
-Oh, and finally-finally, types can be recursive. If you want to make a type that's a repeatedly-nested array of number (because you were poorly-brought-up), try:
+Oh, and finally-finally, types can be recursive. If you want to make a type that's a repeatedly-nested array of numbers (because you were poorly-brought-up), try:
 
 ```typescript
 type SomeType = [number, SomeType | [number]];
 const x: SomeType = [1, [2, [3]]]; // type checks cleanly
 ```
 
-So, back to English. Let's say a valid english sentence is a bunch of valid words like 'cat' and 'dog' and 'falafel' strung together by connectors like spaces and periods. Let's also ignore the wailing and gnashing of teeth sure to be coming out of any english teacher reading this paragraph.
+So, back to English. Let's say a valid english sentence is a bunch of valid words like 'cat' and 'dog' and 'falafel' strung together by connectors like spaces and periods. Let's also ignore the wailing and gnashing of teeth sure to be coming from any English teacher reading this paragraph.
 
 Now, assuming there are are only two words, 'dog' and 'cat (and I can't really imagine why you'd need any other words), we can define a sentence in pseudocode like:
 
@@ -161,6 +161,8 @@ const result: ValidWords<"the quick brown fox jumped over the lazy dog."> =
 Again: poorly.
 
 The script `generate_spellcheck.ts` reads in a dictionary of words (`common_words.txt`) and generates a single massive TS type in [spellcheck.ts](https://github.com/kkuchta/TSpell/blob/master/spellcheck.ts) (`yarn run ts-node generate_spellcheck.ts`). You can then use that to spellcheck something by importing the massive, generated type. See or edit `demo.ts` to try it out, then run the type checker with `yarn run tsc --noEmit demo.ts`. If it runs cleanly, you spelled your sentence correctly.
+
+
 
 **Note**: This only works in the as-yet-unofficial TypeScript 4.1 and later. You can play around with that typescript in [TypeScript Playground](https://www.typescriptlang.org/play?ts=4.1.0-pr-40336-88#code/C4TwDgpgBAaghgGwJYBMDqB7ATigzgHgBUoIAPYCAOzyl2CyUoHMA+KAXimLIutygBEAgFBQoAfkEA3RKhFiAXFxLkqNAAYBjOMAAkAb0YAzCFigAlCHQC+6qAB8o6lBiYHjpi1eC3RE2LIoAFIYjKb4lnQsfkoCjDLIKAIA3MLCoJABiSFhWEQqvDR0DMxsnNyqfILy-gIJcjHKPGr8du6UJmaRPnaO6gB07Z1eNup+kgAU8ImYOATdbI7TqDmU4QsAlI1xlPVJaZoYlHRQpErL6Nh4+AIuTFDawFB3-QJl0oECQA) if you want, or `yarn install` should do it in this repo.
 
