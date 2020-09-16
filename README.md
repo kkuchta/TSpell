@@ -169,6 +169,8 @@ The script generate_spellcheck.ts reads in a dictionary of words (common_words.t
 
 **\*whispers\*** What?
 
-**I said... _hushed voice_ I kinda like code monstrosities like this, where can I find more?** You're sick. Seek help.
+**\*whispers again\*** Speak up, I can't hear you.
+
+**I said... _hushed voice_ I kinda like code monstrosities like this, where can I find more?** You were right to whisper, you should be ashamed of yourself.
 
 **Don't you code-shame me.** Ok, fine, you might like [css-only async chat](https://github.com/kkuchta/css-only-chat), [lambda-only url shortener](https://github.com/kkuchta/url_shortener), [disguising ruby as JS](https://kevinkuchta.com/2017/07/disguising-ruby-as-javascript/), or [a database in your browser tabs](https://github.com/kkuchta/tabdb).
