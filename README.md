@@ -5,6 +5,8 @@
 This is a typescript spell checker. I'm sorry, I misspoke: this is a compile-time spell checker using only typescript's type checker. No, I'm serious. Well, I mean, obviously not _that_ serious, but it _does_ work.
 
 ```typescript
+import { ValidWords } from "./spellcheck";
+
 // Typechecks cleanly:
 const result: ValidWords<"the quick brown fox."> = "valid";
 
