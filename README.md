@@ -11,6 +11,9 @@ const result: ValidWords<"the quick brown fox."> = "valid";
 // Throws a type error
 const result: ValidWords<"the qxick brown fox."> = "valid";
 ```
+<p align="center">
+  <img src='images/butwhy.gif' width=200 />
+</p>
 
 ## Let me see that...
 
@@ -162,7 +165,7 @@ Again: poorly.
 
 The script `generate_spellcheck.ts` reads in a dictionary of words (`common_words.txt`) and generates a single massive TS type in [spellcheck.ts](https://github.com/kkuchta/TSpell/blob/master/spellcheck.ts) (`yarn run ts-node generate_spellcheck.ts`). You can then use that to spellcheck something by importing the massive, generated type. See or edit `demo.ts` to try it out, then run the type checker with `yarn run tsc --noEmit demo.ts`. If it runs cleanly, you spelled your sentence correctly.
 
-
+![tons of word conditions joined together](images/tonsofwords.png)
 
 **Note**: This only works in the as-yet-unofficial TypeScript 4.1 and later. You can play around with that typescript in [TypeScript Playground](https://www.typescriptlang.org/play?ts=4.1.0-pr-40336-88#code/C4TwDgpgBAaghgGwJYBMDqB7ATigzgHgBUoIAPYCAOzyl2CyUoHMA+KAXimLIutygBEAgFBQoAfkEA3RKhFiAXFxLkqNAAYBjOMAAkAb0YAzCFigAlCHQC+6qAB8o6lBiYHjpi1eC3RE2LIoAFIYjKb4lnQsfkoCjDLIKAIA3MLCoJABiSFhWEQqvDR0DMxsnNyqfILy-gIJcjHKPGr8du6UJmaRPnaO6gB07Z1eNup+kgAU8ImYOATdbI7TqDmU4QsAlI1xlPVJaZoYlHRQpErL6Nh4+AIuTFDawFB3-QJl0oECQA) if you want, or `yarn install` should do it in this repo.
 
