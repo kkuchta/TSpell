@@ -186,7 +186,7 @@ The script `generate_spellcheck.ts` reads in a dictionary of words (`common_word
 
 **Ok, it turns out you _can_, but what about _should_?** Oh, absolutely not. This is terribly inefficient. Spell/Type-checking a 9-word sentence takes 40 seconds on my machine and larger dictionaries cause the TS compiler to think it's hit an infinite recursive loop and barf.
 
-**I kinda want to use this for real...** Please don't. Or do, and tell me how it turns out. If you actually want compile-time spell checking for some reason, maybe rig up a step in your JS build pipleine instead of trying to abuse the type checker like some kinda maniac.
+**I kinda want to use this for real...** Please don't. Or do, and tell me how it turns out. If you actually want compile-time spell checking for some reason, maybe rig up a step in your JS build pipeline instead of trying to abuse the type checker like some kinda maniac.
 
 **Who's responsible for this monstrosity?** Direct your hate mail to [@kkuchta](https://twitter.com/kkuchta), although a [tweet by @danvdk](https://twitter.com/danvdk/status/1301707026507198464) showed me it was possible.
 
