@@ -10,7 +10,7 @@ import { ValidWords } from "./spellcheck";
 // Typechecks cleanly:
 const result: ValidWords<"the quick brown fox."> = "valid";
 
-// Throws a type error
+// Throws a type error due to typo in qxick
 const result: ValidWords<"the qxick brown fox."> = "valid";
 ```
 
@@ -182,7 +182,7 @@ The script `generate_spellcheck.ts` reads in a dictionary of words (`common_word
 
 **Why would you do this?** I wouldn't.
 
-**No, I mean, why did you build this** To see if I could.
+**No, I mean, why did you build this?** To see if I could.
 
 **Ok, it turns out you _can_, but what about _should_?** Oh, absolutely not. This is terribly inefficient. Spell/Type-checking a 9-word sentence takes 40 seconds on my machine and larger dictionaries cause the TS compiler to think it's hit an infinite recursive loop and barf.
 
