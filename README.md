@@ -113,7 +113,7 @@ Now, assuming there are are only two words, 'dog' and 'cat (and I can't really i
 
 valid_sentence = ('dog' or 'cat') + ' ' + (valid_sencence or nothing).
 
-So given that, the sentence `dog cat cat` is valid becuase it matches `('dog' or 'cat') + ' ' + ('dog' or 'cat') + ' ' + ('dog' or 'cat') + nothing`
+So given that, the sentence `dog cat cat` is valid because it matches `('dog' or 'cat') + ' ' + ('dog' or 'cat') + ' ' + ('dog' or 'cat') + nothing`
 
 And if we're willing to abandon all good sense and decorum, we can encode that in types as:
 
